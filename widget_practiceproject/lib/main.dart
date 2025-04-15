@@ -14,13 +14,17 @@ class SplashScreen extends StatelessWidget { // StatelessWidget 선언
             color: Color(0xFFB7DAD3) // -> color: Colors.orange를 헥스코드로 바꿈
                                      // 16진수를 의미하는 0x와 불투명도100%인 FF, 그리고 색상코드 6자리를 입력하면됨.
           ),
-          child: Center(
-            child: Image.asset( // 이전 Text위젯을 Image위젯으로 변경
-              "assets/logo.png",
+          child: Column( // Image.asset()처럼 고정된 크기를 가진 위젯을 Column에 넣으면 기본적으로 가로축은 중앙 정렬이 기본
+            children: [
+              // 여러 위젯을 입력할 수 있는 children 파라미터
+              Image.asset(
+                "assets/logo.png",
+              ),
+              CircularProgressIndicator() // 로딩 애니메이션이 실행되는 위젯
+            ],
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
