@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget { // HomeScreen이라는 StatelessWidge
         // 앱바의 배경색
         backgroundColor: Colors.orange,
         // 앱바의 타이틀 설정
-        title: Text("이도서의 코딩노트"),
+        title: Text("도서의 코딩노트"),
         // 가운데 정렬
         centerTitle: true,
       ),
