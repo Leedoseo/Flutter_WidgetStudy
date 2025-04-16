@@ -25,6 +25,21 @@ class HomeScreen extends StatelessWidget { // HomeScreen이라는 StatelessWidge
         title: Text("도서의 코딩노트"),
         // 가운데 정렬
         centerTitle: true,
+
+        // 앱바에 액션 버튼을 추가할 수 있는 파라미터
+        actions: [
+          IconButton( // 홈버튼을 만들거기 떄문에 IconButton사용
+            onPressed: (){ // 아이콘을 눌렀을 떄 실행할 콜백 함수
+              // 웹뷰 위젯에서 사이트로 전환
+              webViewController.loadRequest(Uri.parse("https://leedoseo.tistory.com/"));
+            },
+
+            // 아이콘 모양을 홈버튼 모양으로 설정
+            icon: Icon(
+              Icons.home,
+            ),
+          ),
+        ],
       ),
       body: WebViewWidget(
         controller: webViewController, // webViewController 선언완료! -> 시뮬 돌리면 이제 잘 작동함
