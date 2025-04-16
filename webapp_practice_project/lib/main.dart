@@ -1,3 +1,4 @@
+// import "package:프로젝트이름/lib폴더로부터의 위치/파일명"; 순으로 넣어주면됨
 import "package:webapp_practice_project/screen/home_screen.dart"; // home_screen.dart 파일에 있는 HomeScreen 위젯을 불러옴
 import 'package:flutter/material.dart'; // Flutter의 머터리얼 디자인 위젯들을 사용하기 위한 패키지
 
