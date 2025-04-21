@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart"; // 상태바 색상 변경 위한 패키지
+import 'dart:async'; // async 패키지 불러오기
 
 class HomeScreen extends StatefulWidget {
   // 기본 홈 화면으로 사용할 HomeScreen 위젯 생성
@@ -11,6 +12,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() { // initState 함수 등록
+    super.initState(); // 부모 initState 실행
+
+    Timer.periodic(
+      Duration(seconds: 3),
+        (timer) {
+          print("실행!");
+        },
+    );
+  }
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light); // 상태바 색상 변경하는 코드
     return Scaffold(
