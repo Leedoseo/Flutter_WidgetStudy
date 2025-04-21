@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget { // HomeScreen이라는 StatelessWidge
         centerTitle: true,
 
         // 앱바에 액션 버튼을 추가할 수 있는 파라미터
-        actions: [
+        actions: [ // action은 우측부터 버튼을 채움 -> 오른쪽 정렬이 기본! 그래서 홈버튼을 만들면 우측 끝으로 갈 것임
           IconButton( // 홈버튼을 만들거기 떄문에 IconButton사용
             onPressed: (){ // 아이콘을 눌렀을 떄 실행할 콜백 함수
               // 웹뷰 위젯에서 사이트로 전환
