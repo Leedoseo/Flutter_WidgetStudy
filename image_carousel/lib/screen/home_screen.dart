@@ -11,6 +11,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // PageController 생성
+  final PageController pageController = PageController();
+
   @override
   void initState() { // initState 함수 등록
     super.initState(); // 부모 initState 실행
@@ -18,7 +21,22 @@ class _HomeScreenState extends State<HomeScreen> {
     Timer.periodic(
       Duration(seconds: 3),
         (timer) {
-          print("실행!");
+          int? nextPage = pageController.page?.toInt();// 현재 페이지 가져오기
+
+          if (nextPage == null) { // 페이지 값이 없을 때 예외 처리
+            return;
+          }
+
+          if (nextPage == 4) { // 첫 페이지와 마지막 페이지 분기처리 => 페이지 값이 4면 0번째 페이지부터 다시 시작
+            nextPage = 0;
+          } else {
+            nextPage++;
+          }
+          pageController.animateToPage( // 페이지 변경
+            nextPage,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.ease,
+          );
         },
     );
   }
@@ -26,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light); // 상태바 색상 변경하는 코드
     return Scaffold(
       body: PageView( // PageView 추가
+        controller: pageController,
         children: [1, 2, 3, 4, 5] // 샘플 리스트 생성
             .map( // 위젯으로 매핑
               (number) => Image.asset("asset/img/image_$number.jpg", // asset에 있는 이미지 로딩
