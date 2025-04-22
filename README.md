@@ -75,40 +75,40 @@
 
 ---
 
-StatefulWidget 위젯의 생명주기는 아래와 같이 8가지로 구분할 수 있음.
+### StatefulWidget 위젯의 생명주기는 아래와 같이 8가지로 구분할 수 있음.
 
-1. createState()
+1. `createState()`
 - 이 메서드는 `StatefulWidget`의 상태를 관리하는 `State` 객체를 생성함.
 - `StatefulWidget`은 상태가 변할 수 있는 요소이므로, 이 상태를 관리하는 `State` 클래스가 필요함.
 - `StatefulWidget`이 최초로 생성될 때, 먼저 `createState()` 메서드가 호출됨.
 
-2. initState()
-이 메서드는 `State` 객체가 초기화될 때 호출되며, 일회성 작업을 수행하는데 주로 사용됨.
-예를 들어, 초기 데이터 로드나 컨트롤러 초기화 등이 여기에 해당됨.
-`createState()` 메서드가 호출되고 나면, 이어서 `initState()` 메서드가 호출됩니다.
+2. `initState()`
+- 이 메서드는 `State` 객체가 초기화될 때 호출되며, 일회성 작업을 수행하는데 주로 사용됨.
+- 예를 들어, 초기 데이터 로드나 컨트롤러 초기화 등이 여기에 해당됨.
+- `createState()` 메서드가 호출되고 나면, 이어서 `initState()` 메서드가 호출됩니다.
 
-3. didChangeDependencies()
+3. `didChangeDependencies()`
 - 이 메서드는 처음 위젯이 생성될 때보다 많이 호출되는데, 이전에 의존성이 변경되었을 때 실행됨.
 - 데이터를 가져오거나 업데이트하는데 활용할 수 있음.
 - 만약 상위 위젯이나 `InheritedWidget` 등의 종속성이 변경되면, `didChangeDependencies()` 메서드가 호출됨.
 
-4. build()
+4. `build()`
 - 이 메서드에서는 사용자 인터페이스의 모습을 반환하는 역할.
 - `build()` 메서드는 매번 상태가 변경될 때마다 호출되며, 화면을 업데이트하는데 사용.
 - 위의 단계들이 완료되면, Flutter 프레임워크는 `build()` 메서드를 호출하여 화면을 그림. 
 
-5. didUpdateWidget()
+5. `didUpdateWidget()`
 - 여기서는 새로운 위젯과 이전 위젯의 차이점을 처리하는 로직을 구현할 수 있음.
 - 상위 위젯이 다시 렌더링되어 해당 `StatefulWidget`이 재구성될 때, `didUpdateWidget()` 메서드가 호출됨. 
 
-6. setState()
+6. `setState()`
 - 사용자가 상호작용하여 `StatefulWidget`의 상태가 변할 때, `setState()` 메서드를 호출하여 상태를 업데이트함.
 - 이 메서드를 호출하면 Flutter는 해당 위젯을 다시 렌더링하고 화면을 업데이트함.
 
-7. deactivate()
+7. `deactivate()`
 - 이 메서드는 위젯이 화면에서 제거되기 전에 호출되며, 필요한 정리 작업을 수행하는데 사용.
 - `StatefulWidget`이 더 이상 활성 상태가 아니게 되면, `deactivate()` 메서드가 호출됨.
 
-8. dispose()
+8. `dispose()`
 - 이 메서드는 `State` 객체의 정리 작업을 수행하는데 사용되며, 메모리 누수를 방지하고 리소스를 해제하는데 중요함.
 - `StatefulWidget`이 파괴될 때, `dispose()` 메서드가 호출됨. 
