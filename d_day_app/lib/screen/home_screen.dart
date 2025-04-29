@@ -66,11 +66,13 @@ class _DDay extends StatelessWidget { // D-day 위젯 생성
 class _CoupleImage extends StatelessWidget { // 커플 이미지 위젯 생성
   @override
   Widget build(BuildContext context) {
-    return Center( // 이미지 중앙 정렬
-      child: Image.asset(
+    return Expanded( // 이미지 중앙 정렬 -> Expanded 추가
+      child: Center(
+        child: Image.asset(
         "asset/img/middle_image.png",
-        height: MediaQuery.of(context).size.height/2, // 화면의 반만큼 높이 구현
-      )
+        height: MediaQuery.of(context).size.height/2, // 화면의 반만큼 높이 구현 -> Expanded가 우선 순위를 갖게되어 무시됨.
+       ),
+      ),
     );
   }
 }
