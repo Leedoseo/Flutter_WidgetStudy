@@ -26,7 +26,33 @@ class HomeScreen extends StatelessWidget {
 class _DDay extends StatelessWidget { // D-day 위젯 생성
   @override
   Widget build(BuildContext context) {
-    return Text("DDay Widget");
+    return Column(
+      children: [
+        const SizedBox(height: 16.0),
+        Text( // 최상단 U&I 텍스트
+          "U&I",
+        ),
+        const SizedBox(height: 16.0),
+        Text( // 두 번째 텍스트
+          "우리 처음 만난 날"
+        ),
+        Text( // 임시로 지정한 만난 날짜
+          "2024.04.29",
+        ),
+        const SizedBox(height: 16.0),
+        IconButton(
+          iconSize: 60.0,
+          onPressed: () {},
+          icon: Icon(
+            Icons.favorite,
+          ),
+        ),
+        const SizedBox(height: 16.0),
+        Text(
+          "D+365",
+        )
+      ],
+    );
   }
 }
 
