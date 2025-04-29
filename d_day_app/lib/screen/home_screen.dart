@@ -32,11 +32,16 @@ class _HomeScreenState extends State<HomeScreen> {
       )
     );
   }
+  void onHeartPressed() {
+    // 상태 변경 시 setState() 함수 실행
+    setState(() {
+      // firstDay 변수에서 하루 빼기
+      firstDay = firstDay.subtract(Duration(days: 1));
+    });
+  }
 }
 
-void onHeartPressed() {
-  print("클릭");
-}
+
 
 class _DDay extends StatelessWidget { // D-day 위젯 생성
 
