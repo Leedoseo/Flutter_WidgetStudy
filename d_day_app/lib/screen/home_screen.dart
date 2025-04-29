@@ -26,18 +26,23 @@ class HomeScreen extends StatelessWidget {
 class _DDay extends StatelessWidget { // D-day 위젯 생성
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme; // 테마 불러오기
+
     return Column(
       children: [
         const SizedBox(height: 16.0),
         Text( // 최상단 U&I 텍스트
           "U&I",
+          style: textTheme.displayLarge,
         ),
         const SizedBox(height: 16.0),
         Text( // 두 번째 텍스트
-          "우리 처음 만난 날"
+          "우리 처음 만난 날",
+          style: textTheme.bodyLarge,
         ),
         Text( // 임시로 지정한 만난 날짜
           "2024.04.29",
+          style: textTheme.bodyMedium,
         ),
         const SizedBox(height: 16.0),
         IconButton(
@@ -45,11 +50,13 @@ class _DDay extends StatelessWidget { // D-day 위젯 생성
           onPressed: () {},
           icon: Icon(
             Icons.favorite,
+            color: Colors.red,
           ),
         ),
         const SizedBox(height: 16.0),
         Text( // 만난 후 D-day
           "D+365",
+          style: textTheme.displayMedium,
         )
       ],
     );
