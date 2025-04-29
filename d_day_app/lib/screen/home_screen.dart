@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key : key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  DateTime firstDay = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +21,10 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween, // 위아래 끝에 위젯 배치
           crossAxisAlignment: CrossAxisAlignment.stretch, // 반대축 최대 크기로 늘리기
           children: [
-            _DDay(),
+            _DDay(
+              // 하트를 눌렀을 때 실행할 함수 전달하기
+              onHeartPressed: onHeartPressed,
+            ),
             _CoupleImage(),
           ],
         )
@@ -23,7 +33,19 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+void onHeartPressed() {
+  print("클릭");
+}
+
 class _DDay extends StatelessWidget { // D-day 위젯 생성
+
+  // 하트를 눌렀을 때 실행할 함수
+  final GestureTapCallback onHeartPressed;
+
+  _DDay({
+    required this.onHeartPressed,
+});
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme; // 테마 불러오기
@@ -47,7 +69,7 @@ class _DDay extends StatelessWidget { // D-day 위젯 생성
         const SizedBox(height: 16.0),
         IconButton(
           iconSize: 60.0,
-          onPressed: () {},
+          onPressed: onHeartPressed,
           icon: Icon(
             Icons.favorite,
             color: Colors.red,
@@ -70,7 +92,7 @@ class _CoupleImage extends StatelessWidget { // 커플 이미지 위젯 생성
       child: Center(
         child: Image.asset(
         "asset/img/middle_image.png",
-        height: MediaQuery.of(context).size.height/2, // 화면의 반만큼 높이 구현 -> Expanded가 우선 순위를 갖게되어 무시됨.
+        height: MediaQuery.of(context).size.height / 2, // 화면의 반만큼 높이 구현 -> Expanded가 우선 순위를 갖게되어 무시됨.
        ),
       ),
     );
