@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart'; // 쿠퍼티노 위젯 사용하기 위해 필요 -> 날짜 고르는 기능
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -33,15 +34,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
   void onHeartPressed() {
-    // 상태 변경 시 setState() 함수 실행
-    setState(() {
-      // firstDay 변수에서 하루 빼기
-      firstDay = firstDay.subtract(Duration(days: 1));
-    });
+    showCupertinoDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // 날짜 선택하는 다이얼로그
+        return CupertinoDatePicker(
+          // 시간 제외하고 날짜만 선택하기
+          mode: CupertinoDatePickerMode.date,
+          onDateTimeChanged: (DateTime date) {},
+        );
+      },
+    );
   }
 }
-
-
 
 class _DDay extends StatelessWidget { // D-day 위젯 생성
 
