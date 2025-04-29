@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _DDay(
               // 하트를 눌렀을 때 실행할 함수 전달하기
               onHeartPressed: onHeartPressed,
+              firstDay: firstDay,
             ),
             _CoupleImage(),
           ],
@@ -41,14 +42,17 @@ class _DDay extends StatelessWidget { // D-day 위젯 생성
 
   // 하트를 눌렀을 때 실행할 함수
   final GestureTapCallback onHeartPressed;
+  final DateTime firstDay; // 사귀기 시작한 날
 
   _DDay({
     required this.onHeartPressed,
+    required this.firstDay, // 날짜 변수로 받기
 });
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme; // 테마 불러오기
+    final now = DateTime.now(); // 현재 날짜시간
 
     return Column(
       children: [
@@ -62,8 +66,8 @@ class _DDay extends StatelessWidget { // D-day 위젯 생성
           "우리 처음 만난 날",
           style: textTheme.bodyLarge,
         ),
-        Text( // 임시로 지정한 만난 날짜
-          "2024.04.29",
+        Text( // DateTime을 년. 월. 일 형태로 변경
+          "${firstDay.year}.${firstDay.month}.${firstDay.day}",
           style: textTheme.bodyMedium,
         ),
         const SizedBox(height: 16.0),
@@ -77,7 +81,7 @@ class _DDay extends StatelessWidget { // D-day 위젯 생성
         ),
         const SizedBox(height: 16.0),
         Text( // 만난 후 D-day
-          "D+365",
+          "D+${DateTime(now.year, now.month, now.day).difference(firstDay).inDays + 1}",
           style: textTheme.displayMedium,
         )
       ],
