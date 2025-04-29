@@ -45,7 +45,11 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 300,
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,// 시간 제외하고 날짜만 선택하기
-              onDateTimeChanged: (DateTime date) {},
+              onDateTimeChanged: (DateTime date) {
+                setState(() {
+                  firstDay = date;
+                });
+              },
             ),
           )
         );
