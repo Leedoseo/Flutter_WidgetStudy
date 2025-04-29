@@ -48,7 +48,7 @@ class _DDay extends StatelessWidget { // D-day 위젯 생성
           ),
         ),
         const SizedBox(height: 16.0),
-        Text(
+        Text( // 만난 후 D-day
           "D+365",
         )
       ],
