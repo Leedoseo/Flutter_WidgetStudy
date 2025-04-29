@@ -24,7 +24,6 @@ void main() {
           ),
           bodyMedium: TextStyle(
             color: Colors.white,
-            fontSize: 20.0,
           )
         )
       ),
