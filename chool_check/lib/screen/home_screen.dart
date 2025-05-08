@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomeScreen extends StatelessWidget {
   static final LatLng companyLatLng = LatLng( // 지도 초기화 위치
@@ -59,5 +60,29 @@ class HomeScreen extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
     );
+  }
+
+  Future<String> checkPermission() async {
+    final isLocationEnabled = await Geolocator.isLocationServiceEnabled(); // 위치 서비스 활성화 여부 확인
+
+    if (!isLocationEnabled) { // 위치 서비스 활성화가 안됬다면 출력
+      return "위치 서비스를 활성화해주세요.";
+    }
+
+    LocationPermission checkedPermission = await Geolocator.checkPermission(); // 위치 권한 확인
+
+    if (checkedPermission == LocationPermission.denied) { // 위치 권한이 거절 됐다면
+      checkedPermission = await Geolocator.requestPermission();
+
+      if (checkedPermission == LocationPermission.denied) { // 위치 권한 요청하기
+        return "위치 권한을 허가해주세요.";
+      }
+    }
+
+    if (checkedPermission == LocationPermission.deniedForever) { // 위치 권한 거절됨 (앱에서 재요청 불가)
+      return "앱의 위치 권한을 설정에서 허가해주세요.";
+    }
+
+    return "위치 권한이 허가 되었습니다."; // 위 조건이 모두 만족됐을 경우 위치 권한 허가 완료.
   }
 }
