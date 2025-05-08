@@ -7,7 +7,22 @@ class HomeScreen extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: renderAppBar(),
       body: Text("Home Screen"),
+    );
+  }
+
+  AppBar renderAppBar() {
+    return AppBar(
+      centerTitle: true,
+      title: Text(
+        "오늘도 출근",
+        style: TextStyle(
+          color: Colors.blue,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      backgroundColor: Colors.white,
     );
   }
 }
