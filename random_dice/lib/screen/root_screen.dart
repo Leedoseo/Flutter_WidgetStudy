@@ -35,7 +35,22 @@ TickerProviderStateMixin { // TickerProviderStateMixin 사용 -> 애니메이션
   }
 
   BottomNavigationBar renderBottomNavigation() {
-    return BottomNavigationBar(items: []); // 탭 내비게이션을 구현하는 위젯
+    return BottomNavigationBar( // 탭 내비게이션을 구현하는 위젯
+        items: [
+          BottomNavigationBarItem( // 하단 탭바의 각 버튼 구현
+              icon: Icon(
+                Icons.edgesensor_high_outlined,
+              ),
+            label: '주사위',
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.settings,
+              ),
+            label: "설정",
+          ),
+        ],
+    );
   }
 }
 
