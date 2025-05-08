@@ -47,7 +47,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
   
-  dependency_overrides: # 의존성 덮어쓰기
+dependency_overrides: # 의존성 덮어쓰기
    sensors_plus: 6.1.0 # sensors_plus 버전 6.1.0으로 덮어쓰기
 
 # For information on the generic Dart part of this file, see the
