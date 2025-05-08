@@ -8,6 +8,12 @@ class HomeScreen extends StatelessWidget {
     126.921252, // 경도
   );
 
+  // 회사 위치 마커 선언
+  static final Marker marker = Marker(
+    markerId: MarkerId("company"),
+    position: companyLatLng,
+  );
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -35,6 +41,7 @@ class HomeScreen extends StatelessWidget {
                       target: companyLatLng,
                       zoom: 16, // 확대 정도 (높을 수록 크게 보임)
                     ),
+                    markers: Set.from([marker]),
                   ),
                 ),
                 Expanded( // 여기서 flex를 선언 안해도 위에서 2를 선언했기 때문에 나머지 범위를 버튼이 차지하게 됨.
