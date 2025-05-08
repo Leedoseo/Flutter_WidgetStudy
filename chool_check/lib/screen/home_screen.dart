@@ -14,6 +14,15 @@ class HomeScreen extends StatelessWidget {
     position: companyLatLng,
   );
 
+  static final Circle circle = Circle(
+    circleId: CircleId("choolCheckCircle"),
+    center: companyLatLng, // 원의 중심이 되는 위치 LatLng값을 제공함
+    fillColor: Colors.blue.withOpacity(0.5), // 원의 색상
+    radius: 100, // 원의 반지름(미터 단위)
+    strokeColor: Colors.blue, // 원의 테두리 색
+    strokeWidth: 1, // 원의 테두리 두께
+  );
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -41,7 +50,9 @@ class HomeScreen extends StatelessWidget {
                       target: companyLatLng,
                       zoom: 16, // 확대 정도 (높을 수록 크게 보임)
                     ),
+                    myLocationEnabled: true, // 내 위치 지도에 보이기
                     markers: Set.from([marker]),
+                    circles: Set.from([circle]),
                   ),
                 ),
                 Expanded( // 여기서 flex를 선언 안해도 위에서 2를 선언했기 때문에 나머지 범위를 버튼이 차지하게 됨.
