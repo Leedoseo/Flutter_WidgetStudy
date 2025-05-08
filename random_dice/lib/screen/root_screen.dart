@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:random_dice/screen/home_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({Key? key}) : super(key: key);
@@ -8,16 +9,29 @@ class RootScreen extends StatefulWidget {
   State<RootScreen> createState() => _RootScreenState();
 }
 
-class _RootScreenState extends State<RootScreen> with
-TickerProviderStateMixin { // TickerProviderStateMixin 사용 -> 애니메이션 효율 담당? 1프레임마다 애니메이션 실행
-  TabController? controller; // 사용할 TabController 선언
+class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin { // TickerProviderStateMixin 사용 -> 애니메이션 효율 담당? 1프레임마다 애니메이션 실행
+
+  TabController? controller;
 
   @override
 
   void initState() {
     super.initState();
 
-    controller = TabController(length: 2, vsync: this); // 컨트롤러 초기화
+    controller = TabController(length: 2, vsync: this);
+
+    controller!.addListener(tabListener); // 컨트롤러 속성이 변경될 때마다 실행할 함수 등록
+  }
+
+  tabListener() { // 리스너로 사용할 함수
+    setState(() {});
+  }
+
+  @override
+
+  dispose() {
+    controller!.removeListener(tabListener); // 리스너에 등록한 함수 등록 취소
+    super.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -32,16 +46,7 @@ TickerProviderStateMixin { // TickerProviderStateMixin 사용 -> 애니메이션
 
   List<Widget> renderChildren() {
     return [
-      Container( // 홈 탭
-        child: Center(
-          child: Text(
-            "Tab 1",
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
+      HomeScreen(number: 1),
       Container(
         child: Center(
           child: Text(
@@ -57,6 +62,12 @@ TickerProviderStateMixin { // TickerProviderStateMixin 사용 -> 애니메이션
 
   BottomNavigationBar renderBottomNavigation() {
     return BottomNavigationBar( // 탭 내비게이션을 구현하는 위젯
+      currentIndex: controller!.index,
+        onTap: (int index) {
+          setState(() {
+            controller!.animateTo(index);
+          });
+        },
         items: [
           BottomNavigationBarItem( // 하단 탭바의 각 버튼 구현
               icon: Icon(
