@@ -22,14 +22,14 @@ class Logo extends StatelessWidget {
         ),
         SizedBox(height: 32.0),
         Text("안녕! 나는 너의 친구 AI봇이야! \n나와 대화를 하며 친밀도를 높여보자!",
-        textAlign: TextAlign.center,
-        style: TextStyle(
+          textAlign: TextAlign.center,
+          style: TextStyle(
           color:Colors.black,
           fontSize: 16,
           fontWeight: FontWeight.w500,
           fontStyle: FontStyle.italic,
+          ),
         ),
-        )
       ],
     );
   }
