@@ -1,9 +1,14 @@
+import 'package:isar/isar.dart'; // MessageModel클래스를 Isar컬렉션으로 변경하기
+
+part 'message_model.g.dart'; // flutter pub run build_runner build를 터미널로 실행해서 message_model.g.dart 파일 생성하고 불러오기
+
+@collection
 class MessageModel {
-  final int id; // MessageID
-  final bool isMine; // true: 내가 보낸 메세지 / false : AI가 보낸 메세지
-  final String message; // 메세지 내용
-  final int? point; // 포인트 (AI의 경우 null)
-  final DateTime date; // 메세지 전송 날짜
+  Id id = Isar.autoIncrement;
+  bool isMine;
+  String message;
+  int? point;
+  DateTime date;
 
   MessageModel ({
     required this.id,
