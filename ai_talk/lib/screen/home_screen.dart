@@ -4,6 +4,7 @@ import 'package:ai_talk/component/logo.dart'; // 로고 불러오기
 import 'package:ai_talk/model/message_model.dart'; // message_model 파일 불러오기
 import 'package:ai_talk/component/message.dart'; // 메세지 파일 불러오기
 import 'package:ai_talk/component/date_divider.dart'; // date_divider 파일 불러오기
+import 'package:ai_talk/component/chat_text_field.dart'; // 채팅 입력 텍스트 필드 불러오기
 
 final sampleData = [ // 샘플 데이터 설정
   MessageModel(
@@ -31,14 +32,34 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController controller = TextEditingController(); // 텍스트 에딧 컨트롤러 구현
+
+  bool isRunning = false; // 로딩여부 확인 변수
+  String? error; // 에러 메세지 변수
 
   @override
 
   Widget build(BuildContext context) {
     return Scaffold(
-    body: buildMessageList(),
+      body: SafeArea( // SafeArea 구현
+       child: Column( // ListView와 TextField를 세로로 정렬
+         children: [
+           Expanded( // ListView가 화면을 최대한 차지하도록 설정
+             child: buildMessageList(),
+           ),
+           ChatTextField(
+             error: error,
+             loading: isRunning,
+             onSend: handleSendMessage,
+             controller: controller,
+           ),
+         ],
+       ),
+      ),
     );
   }
+
+  handleSendMessage(){} // 메세지 보내기 버튼을 누르면 실행할 함수
 
   Widget buildMessageList() {
     return ListView.separated(
