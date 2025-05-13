@@ -5,6 +5,9 @@ import 'package:ai_talk/model/message_model.dart'; // message_model 파일 불�
 import 'package:ai_talk/component/message.dart'; // 메세지 파일 불러오기
 import 'package:ai_talk/component/date_divider.dart'; // date_divider 파일 불러오기
 import 'package:ai_talk/component/chat_text_field.dart'; // 채팅 입력 텍스트 필드 불러오기
+import 'package:get_it/get_it.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:isar/isar.dart';
 
 final sampleData = [ // 샘플 데이터 설정
   MessageModel(
@@ -59,7 +62,41 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  handleSendMessage(){} // 메세지 보내기 버튼을 누르면 실행할 함수
+  handleSendMessage() async { // 메세지 보내기 버튼을 누르면 실행할 함수
+    if(controller.text.isEmpty) { // 텍스트 필드에 입력된 메세지가 없으면 에러 보여주기
+      setState(() => error = "메세지를 입력해주세요");
+      return;
+    }
+
+    int? currentModelMessageId; // 현재 응답 받고 있는 메세지 ID (스트림으로 지속적으로 업데이트하기)
+    int? currentUserMessageId; // 내가 보낸 메세지에 배정된 ID (에러가 발생하면 삭제하기)
+
+    final isar = GetIt.I<Isar>(); // Isar 인스턴스 가져오기
+    final currentPrompt  = controller.text; // TextField에 입력된 값 가져오기
+
+    try {
+      setState(() { // 로딩 중으로 상태 변경
+        isRunning = true;
+      });
+
+      controller.clear(); // TextField에 입력된 값 모두 삭제
+
+      final myMesageCount = await isar.messageModels.filter().isMineEqualTo(true).count(); // 현재 데이터베이스에 저장되어 있는 내가 보낸 메세지 숫자 세기(포인트용도)
+
+      currentUserMessageId = await isar.writeTxn(() async { // 내가 보낸 메세지 Isar에 저장하기
+        return await isar.messageModels.put(
+          MessageModel(
+            isMine: true,
+            message: currentPrompt,
+            point: myMesageCount + 1,
+            date: DateTime.now(),
+          ),
+        );
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString()))); // 에러가 있을 경우 SnackBar로 에러 메세지 표시해주기
+    }
+  }
 
   Widget buildMessageList() {
     return ListView.separated(
