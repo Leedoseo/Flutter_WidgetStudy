@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       });
 
-      final contextMessages = await isar.messageModels.where().limit(5).findAll(); // 최근 5개의 메세지만 불러오기
+      final contextMessages = await isar.messageModels.where().limit(20).findAll(); // 최근 5개의 메세지만 불러오기
 
       final List<Content> promptContext = contextMessages // 최근 메세지를 Content로 변환
       .map(
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
         model: "gemini-1.5-flash", // 사용하려는 모델을 정의
         apiKey: "AIzaSyB3P3RWen5M4j03CNxvmNMK0PWHf5APgqk", // 제미나이 API Key입력
 
-        systemInstruction: Content.system("너는 이제부터 착하고 친절한 친구의 역할을 할거야. 앞으로 채팅을 하면서 긍정적인 말만 할 수 있도록 해줘."), // 제미나이와 통신하기에 앞서 제미나이가 어떤 역할을 해야하는지 정의할 수 있음.
+        systemInstruction: Content.system("너는 GPT-4급 지능을 가진 스마트한 AI야. 사용자의 질문에 성의 있고 창의적으로 답변해. 단순 추천이 아닌, 상황과 맥락을 고려해서 조언해줘."), // 제미나이와 통신하기에 앞서 제미나이가 어떤 역할을 해야하는지 정의할 수 있음.
       );
 
       String message = "";
