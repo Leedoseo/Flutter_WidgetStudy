@@ -112,6 +112,44 @@ class _HomeScreenState extends State<HomeScreen> {
 
         systemInstruction: Content.system("너는 이제부터 착하고 친절한 친구의 역할을 할거야. 앞으로 채팅을 하면서 긍정적인 말만 할 수 있도록 해줘."), // 제미나이와 통신하기에 앞서 제미나이가 어떤 역할을 해야하는지 정의할 수 있음.
       );
+
+      String message = "";
+
+      model.generateContentStream(promptContext).listen(
+          (event) async {
+
+            if (event.text != null) {
+              message += event.text!;
+            }
+
+            final MessageModel model = MessageModel (
+              isMine: false,
+              message: message,
+              date: DateTime.now(),
+            );
+
+            if (currentModelMessageId != null) {
+              model.id = currentModelMessageId!;
+            }
+
+            currentModelMessageId = await isar.writeTxn<int>(() => isar.messageModels(model));
+          },
+
+        onDone: () => setState(() {
+          isRunning = false;
+        }),
+
+        onError: (e) async {
+            await isar.writeTxn(() async {
+              return isar.messageModels.delete(currentUserMessageId!);
+            });
+
+            setState(() {
+              error = e.toString();
+              isRunning = false;
+            });
+        },
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString()))); // 에러가 있을 경우 SnackBar로 에러 메세지 표시해주기
     }
@@ -173,5 +211,5 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String getStringDate(DateTime date) {
     return "${date.year}년 ${date.month}월 ${date.day}일";
-  }
+  }ㅓㅂ
 }
