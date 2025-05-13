@@ -1,5 +1,24 @@
+import 'package:ai_talk/component/message.dart';
 import 'package:flutter/material.dart';
-import 'package:ai_talk/component/logo.dart'; // 로고 불러오기 
+import 'package:ai_talk/component/logo.dart'; // 로고 불러오기
+import 'package:ai_talk/model/message_model.dart'; // message_model 파일 불러오기
+
+final sampleData = [ // 샘플 데이터 설정
+  MessageModel(
+    id: 1,
+    isMine: true,
+    message: "오늘 저녁으로 먹을 만한 메뉴 추천해줘",
+    point: 1,
+    date: DateTime(2024, 11, 23),
+  ),
+  MessageModel(
+      id: 2,
+      isMine: false,
+      message: "김치찜은 어떠세요?",
+      point: null,
+      date: DateTime(2024, 11, 23)
+  ),
+];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
