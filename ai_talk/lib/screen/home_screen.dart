@@ -93,6 +93,25 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         );
       });
+
+      final contextMessages = await isar.messageModels.where().limit(5).findAll(); // 최근 5개의 메세지만 불러오기
+
+      final List<Content> promptContext = contextMessages // 최근 메세지를 Content로 변환
+      .map(
+          (e) => Content(
+            e.isMine! ? "user" : "model", // 사용자가 보낸 메세지는 "user", 제미나이가 대답한 메세지는 "model" 룰을 지정해줌
+            [
+              TextPart(e.message!), // 문자 메세지를 제공하려면 TextPart 클래스를 사용하면 됨
+            ],
+          ),
+      ).toList();
+
+      final model = GenerativeModel(
+        model: "gemini-1.5-flash", // 사용하려는 모델을 정의
+        apiKey: GEMINI_API_KEY, // 제미나이 API Key입력
+
+        systemInstruction: Content.system("너는 이제부터 착하고 친절한 친구의 역할을 할거야. 앞으로 채팅을 하면서 긍정적인 말만 할 수 있도록 해줘."), // 제미나이와 통신하기에 앞서 제미나이가 어떤 역할을 해야하는지 정의할 수 있음.
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString()))); // 에러가 있을 경우 SnackBar로 에러 메세지 표시해주기
     }
