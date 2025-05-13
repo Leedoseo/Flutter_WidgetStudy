@@ -2,6 +2,8 @@ import 'package:ai_talk/component/message.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_talk/component/logo.dart'; // 로고 불러오기
 import 'package:ai_talk/model/message_model.dart'; // message_model 파일 불러오기
+import 'package:ai_talk/component/message.dart'; // 메세지 파일 불러오기
+import 'package:ai_talk/component/date_divider.dart'; // date_divider 파일 불러오기
 
 final sampleData = [ // 샘플 데이터 설정
   MessageModel(
@@ -44,5 +46,41 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Logo(),
       ),
     );
+  }
+
+  Widget buildMessageItem ({
+    MessageModel? prevMessage,
+    required MessageModel message,
+    required int index,
+  }) {
+    final isMine = message.isMine;
+    final shouldDrawDateDivider = prevMessage == null || shouldDrawDate(prevMessage.date!, message.date!); // DateDivider 위젯을 그려야 하는지 판단하기
+
+    return Column(
+      children: [
+        if (shouldDrawDateDivider) // Datedivider 위젯을 그려야 하는지 판단하기
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: DateDivider(date: message.date),
+          ),
+
+        Padding( // 정렬 위치에 따라 패딩 다르게 제공해주기
+          padding: EdgeInsets.only(left: isMine ? 64.0 : 16.0, right: isMine ? 16.0 : 64.0),
+          child: Message(
+            alignLeft: !isMine,
+            message: message.message.trim(),
+            point: message.point,
+          ),
+        )
+      ],
+    );
+  }
+
+  bool shouldDrawDate(DateTime date1, DateTime date2) {
+    return getStringDate(date1) != getStringDate(date2);
+  }
+
+  String getStringDate(DateTime date) {
+    return "${date.year}년 ${date.month}월 ${date.day}일";
   }
 }
