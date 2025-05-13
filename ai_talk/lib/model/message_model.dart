@@ -11,10 +11,10 @@ class MessageModel {
   DateTime date;
 
   MessageModel ({
-    required this.id,
     required this.isMine,
     required this.message,
     required this.date,
+    this.id = Isar.autoIncrement,
     this.point,
   });
 }

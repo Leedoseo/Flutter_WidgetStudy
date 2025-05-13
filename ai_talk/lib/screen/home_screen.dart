@@ -44,17 +44,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea( // SafeArea 구현
        child: Column( // ListView와 TextField를 세로로 정렬
          children: [
            Expanded( // ListView가 화면을 최대한 차지하도록 설정
-             child: buildMessageList(),
+             child: StreamBuilder<List<MessageModel>>(
+               stream: GetIt.I<Isar>().messageModels.where().watch(fireImmediately: true),
+               builder: (context, snapshot) {
+                 final messages = snapshot.data ?? [];
+                 return buildMessageList(messages);
+               },
+             ),
            ),
-           ChatTextField(
-             error: error,
-             loading: isRunning,
-             onSend: handleSendMessage,
-             controller: controller,
+           Padding(
+             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
+             child: ChatTextField(
+                error: error,
+                loading: isRunning,
+                onSend: handleSendMessage,
+                controller: controller,
+             ),
            ),
          ],
        ),
@@ -108,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       final model = GenerativeModel(
         model: "gemini-1.5-flash", // 사용하려는 모델을 정의
-        apiKey: GEMINI_API_KEY, // 제미나이 API Key입력
+        apiKey: "AIzaSyB3P3RWen5M4j03CNxvmNMK0PWHf5APgqk", // 제미나이 API Key입력
 
         systemInstruction: Content.system("너는 이제부터 착하고 친절한 친구의 역할을 할거야. 앞으로 채팅을 하면서 긍정적인 말만 할 수 있도록 해줘."), // 제미나이와 통신하기에 앞서 제미나이가 어떤 역할을 해야하는지 정의할 수 있음.
       );
@@ -132,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
               model.id = currentModelMessageId!;
             }
 
-            currentModelMessageId = await isar.writeTxn<int>(() => isar.messageModels(model));
+            currentModelMessageId = await isar.writeTxn<int>(() => isar.messageModels.put(model));
           },
 
         onDone: () => setState(() {
@@ -155,12 +165,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Widget buildMessageList() {
+  Widget buildMessageList(List<MessageModel> messages) {
     return ListView.separated(
-      itemCount: sampleData.length + 1,
+      itemCount: messages.length + 1,
       itemBuilder: (context, index)
-      => index == 0 ? buildLogo() : buildMessageItem(message: sampleData[index - 1],
-        prevMessage: index > 1 ? sampleData[index -2] : null,
+      => index == 0 ? buildLogo() : buildMessageItem(message: messages[index - 1],
+        prevMessage: index > 1 ? messages[index -2] : null,
         index: index - 1,
       ),
       separatorBuilder: (_, __) => const SizedBox(height: 16.0,),
@@ -211,5 +221,5 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String getStringDate(DateTime date) {
     return "${date.year}년 ${date.month}월 ${date.day}일";
-  }ㅓㅂ
+  }
 }
