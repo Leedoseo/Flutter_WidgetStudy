@@ -1,4 +1,3 @@
-import 'package:ai_talk/component/message.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_talk/component/logo.dart'; // 로고 불러오기
 import 'package:ai_talk/model/message_model.dart'; // message_model 파일 불러오기
@@ -37,6 +36,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController controller = TextEditingController(); // 텍스트 에딧 컨트롤러 구현
 
+  final ScrollController scrollController = ScrollController();
+
   bool isRunning = false; // 로딩여부 확인 변수
   String? error; // 에러 메세지 변수
 
@@ -53,6 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
                stream: GetIt.I<Isar>().messageModels.where().watch(fireImmediately: true),
                builder: (context, snapshot) {
                  final messages = snapshot.data ?? [];
+
+                 WidgetsBinding.instance.addPostFrameCallback((_) async => scrollToBottom());
                  return buildMessageList(messages);
                },
              ),
@@ -70,6 +73,18 @@ class _HomeScreenState extends State<HomeScreen> {
        ),
       ),
     );
+  }
+
+  void scrollToBottom() {
+
+    if (scrollController.position.pixels !=
+    scrollController.position.maxScrollExtent) {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
   }
 
   handleSendMessage() async { // 메세지 보내기 버튼을 누르면 실행할 함수
@@ -167,6 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildMessageList(List<MessageModel> messages) {
     return ListView.separated(
+      controller: scrollController,
       itemCount: messages.length + 1,
       itemBuilder: (context, index)
       => index == 0 ? buildLogo() : buildMessageItem(message: messages[index - 1],
