@@ -35,7 +35,21 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
 
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+    body: buildMessageList(),
+    );
+  }
+
+  Widget buildMessageList() {
+    return ListView.separated(
+      itemCount: sampleData.length + 1,
+      itemBuilder: (context, index)
+      => index == 0 ? buildLogo() : buildMessageItem(message: sampleData[index - 1],
+        prevMessage: index > 1 ? sampleData[index -2] : null,
+        index: index - 1,
+      ),
+      separatorBuilder: (_, __) => const SizedBox(height: 16.0,),
+    );
   }
 
   Widget buildLogo() { // 가로 세로 패딩과 함께 Logo를 반환하는 _buildLogo()함수
